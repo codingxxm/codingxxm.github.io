@@ -146,6 +146,87 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MQ系列1：我为什么要用消息队列？" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/17/MQ系列1：我为什么要用消息队列？/">MQ系列1：我为什么要用消息队列？</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/17/MQ系列1：我为什么要用消息队列？/" class="archive-article-date">
+  	<time datetime="2019-08-17T10:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;MQ算是现在一个面试必问题了，我之前还真没在工作中实际用过MQ中间件，只是用过一些内存队列。在我看来，MQ中间件其实也是放大了quene的作用，完善了它的功能，最终成为了生产环境的一个利器。</p>
+</blockquote>
+<hr>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;先不谈什么高可用架构，什么生产最佳实践，只是来说下为什么我现在的项目需要用消息中间件呢。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们线上有一个消息推送系统，这个系统是给我们的app进行消息推送的，它整合了苹果的APNS，华为推送，小米推送，做到了跨平台全品牌的推送。其中ios设备走APNS，华为设备走华为推送，其他安卓设备都走小米推送，只要证书和其他信息配置对，就可以实现对同一个app的多端推送。这个系统代码不是我写的，但是改过一些，所以我熟悉源码，也看出这个系统的设计有着致命的缺陷。</p>
+        
+          <a class="article-more-a" href="/2019/08/17/MQ系列1：我为什么要用消息队列？/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/17/MQ系列1：我为什么要用消息队列？/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-终于还是要写博客了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -320,6 +401,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MQ</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
