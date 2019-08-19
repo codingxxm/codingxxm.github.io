@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | CodingXXM&#39;s Space</title>
+  <title>MQ系列3：RabbitMQ的普通集群模式 | CodingXXM&#39;s Space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Now Learning">
-<meta name="keywords" content="codingxxm">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CodingXXM&#39;s Space">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="学一下RabbitMQ的高可用性如何保障首先学一下RabbitMQ的普通集群模式，示意图如下   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。实际上，只有一个节点存在真正的quene用来存储数据，当然这节点也有quene的元数据，集群的其他节点上只有这个qu">
+<meta name="keywords" content="MQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQ系列3：RabbitMQ的普通集群模式">
+<meta property="og:url" content="http://yoursite.com/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/index.html">
 <meta property="og:site_name" content="CodingXXM&#39;s Space">
-<meta property="og:description" content="Now Learning">
+<meta property="og:description" content="学一下RabbitMQ的高可用性如何保障首先学一下RabbitMQ的普通集群模式，示意图如下   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。实际上，只有一个节点存在真正的quene用来存储数据，当然这节点也有quene的元数据，集群的其他节点上只有这个qu">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/.com//mq.png">
+<meta property="og:updated_time" content="2019-08-19T08:15:37.706Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodingXXM&#39;s Space">
-<meta name="twitter:description" content="Now Learning">
+<meta name="twitter:title" content="MQ系列3：RabbitMQ的普通集群模式">
+<meta name="twitter:description" content="学一下RabbitMQ的高可用性如何保障首先学一下RabbitMQ的普通集群模式，示意图如下   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。实际上，只有一个节点存在真正的quene用来存储数据，当然这节点也有quene的元数据，集群的其他节点上只有这个qu">
+<meta name="twitter:image" content="http://yoursite.com/.com//mq.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingXXM&#39;s Space" type="application/atom+xml">
   
@@ -144,36 +147,40 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-MQ系列3：RabbitMQ的普通集群模式" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MQ系列3：RabbitMQ的普通集群模式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/" class="archive-article-date">
+
+        
+        <a href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/" class="archive-article-date">
   	<time datetime="2019-08-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/">MQ系列3：RabbitMQ的普通集群模式</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<h2 id="学一下RabbitMQ的高可用性如何保障"><a href="#学一下RabbitMQ的高可用性如何保障" class="headerlink" title="学一下RabbitMQ的高可用性如何保障"></a>学一下RabbitMQ的高可用性如何保障</h2><h3 id="首先学一下RabbitMQ的普通集群模式，示意图如下"><a href="#首先学一下RabbitMQ的普通集群模式，示意图如下" class="headerlink" title="首先学一下RabbitMQ的普通集群模式，示意图如下"></a>首先学一下RabbitMQ的普通集群模式，示意图如下</h3></blockquote>
+<hr>
+<p><img src="/.com//mq.png" alt="部署示意图"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。实际上，只有一个节点存在真正的quene用来存储数据，当然这节点也有quene的元数据，集群的其他节点上只有这个quene的元数据，知道这个quene在哪台机器上和一些其他信息。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如一个消费者，消费者4现在连上了节点4进行消费，可是节点4没有存储数据，所以节4会去有quene的那个节点请求数据，拿到后再返回给消费者4。这样的好处是，消费者可以连不同的节点去消费，增强了消费能力。但是坑爹也是显而易见的，这样做会使得各个节点之间有大量的数据交互，感觉不是啥好事。如果节点2挂掉了，那么那个quene就可以认为消失了，因为其他节点没quene。所以这显然不是什么高可用架构。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -185,137 +192,55 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列2：MQ的选型和比较/" class="archive-article-date">
-  	<time datetime="2019-08-19T05:23:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/19/MQ系列2：MQ的选型和比较/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MQ系列2：MQ的选型和比较</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列2：MQ的选型和比较/">MQ系列2：MQ的选型和比较</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/17/MQ系列1：我为什么要用消息队列？/" class="archive-article-date">
-  	<time datetime="2019-08-17T10:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MQ系列1：我为什么要用消息队列？/">MQ系列1：我为什么要用消息队列？</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/17/终于还是要写博客了/" class="archive-article-date">
-  	<time datetime="2019-08-17T09:51:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/终于还是要写博客了/">终于还是要写博客了</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -338,8 +263,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

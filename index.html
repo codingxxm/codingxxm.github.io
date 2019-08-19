@@ -146,6 +146,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MQ系列3：RabbitMQ的普通集群模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/">MQ系列3：RabbitMQ的普通集群模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/" class="archive-article-date">
+  	<time datetime="2019-08-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<h2 id="学一下RabbitMQ的高可用性如何保障"><a href="#学一下RabbitMQ的高可用性如何保障" class="headerlink" title="学一下RabbitMQ的高可用性如何保障"></a>学一下RabbitMQ的高可用性如何保障</h2><h3 id="首先学一下RabbitMQ的普通集群模式，示意图如下"><a href="#首先学一下RabbitMQ的普通集群模式，示意图如下" class="headerlink" title="首先学一下RabbitMQ的普通集群模式，示意图如下"></a>首先学一下RabbitMQ的普通集群模式，示意图如下</h3></blockquote>
+<hr>
+<p><img src="/.com//mq.png" alt="部署示意图"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。实际上，只有一个节点存在真正的quene用来存储数据，当然这节点也有quene的元数据，集群的其他节点上只有这个quene的元数据，知道这个quene在哪台机器上和一些其他信息。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如一个消费者，消费者4现在连上了节点4进行消费，可是节点4没有存储数据，所以节4会去有quene的那个节点请求数据，拿到后再返回给消费者4。这样的好处是，消费者可以连不同的节点去消费，增强了消费能力。但是坑爹也是显而易见的，这样做会使得各个节点之间有大量的数据交互，感觉不是啥好事。如果节点2挂掉了，那么那个quene就可以认为消失了，因为其他节点没quene。所以这显然不是什么高可用架构。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MQ系列2：MQ的选型和比较" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
