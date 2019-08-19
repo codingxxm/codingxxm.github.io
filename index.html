@@ -146,6 +146,87 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MQ系列6：RocketMQ的高可用架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/">MQ系列6：RocketMQ的高可用架构</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/" class="archive-article-date">
+  	<time datetime="2019-08-19T15:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<h2 id="RocketMQ的高可用性如何保障？"><a href="#RocketMQ的高可用性如何保障？" class="headerlink" title="RocketMQ的高可用性如何保障？"></a>RocketMQ的高可用性如何保障？</h2><h3 id="先看一下RocketMQ经典的双主双从模式部署图"><a href="#先看一下RocketMQ经典的双主双从模式部署图" class="headerlink" title="先看一下RocketMQ经典的双主双从模式部署图"></a>先看一下RocketMQ经典的双主双从模式部署图</h3></blockquote>
+<hr>
+<p><img src="/.com//rocketmq.png" alt="双主双从模式部署图"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RocketMQ多了一个NameServer的概念，其实和Zookeeper的作用差不多，都是注册中心，生产者，消费者，还有组成MQ节点的Broker都会向NameServer注册服务，它起到了服务发现，调度，路由，负载的作用。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个图上面，我们延伸一下，把双主双从变为多主多从，感觉就会更为可靠。RocketMQ的高可用性首先在NameServer就保证了，NameServer一定是一个集群，每一个NameServer节点之间都互不通信，毫无关系，都同样全量的记录着所有注册的信息，这样当某一台挂了，不会影响集群的作用。在Broker集群内，因为是多主N从，每一个Master角色的Broker节点都会有N个Salve角色的Broker节点来做数据同步。其中，Master节点负责数据的读写，而Slave节点同步数据后只能提供读服务。当Master节点挂掉后，RocketMQ并没有主从切换的机制，Slave只能提供读服务，但是我们可以手动去做这个切换，写脚本改配置文件，将某一台Slave节点角色修改为Master，重启服务，这样就能接着提供读写服务了，这就是多Slave的好处，这属于一种冷切换。还有个问题，Slave是从Master同步数据的，那么Master挂掉的时候，就很有可能有数据没有同步过来，那么活着的节点就没有这个数据，就无法消费，消息就丢了。但是也不用担心，数据持久化了，那台挂掉的Broker再恢复重启后，那些消息还在，最终也是会被消费掉的。</p>
+<blockquote>
+<h3 id="所以做好配置，准备好这种切换机制，也就保证了高可用性。"><a href="#所以做好配置，准备好这种切换机制，也就保证了高可用性。" class="headerlink" title="所以做好配置，准备好这种切换机制，也就保证了高可用性。"></a>所以做好配置，准备好这种切换机制，也就保证了高可用性。</h3></blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MQ系列5：Kafka的高可用架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

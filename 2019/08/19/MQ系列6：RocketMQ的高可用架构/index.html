@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | CodingXXM&#39;s Space</title>
+  <title>MQ系列6：RocketMQ的高可用架构 | CodingXXM&#39;s Space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Now Learning">
-<meta name="keywords" content="codingxxm">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CodingXXM&#39;s Space">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+  <meta name="description" content="RocketMQ的高可用性如何保障？先看一下RocketMQ经典的双主双从模式部署图   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;RocketMQ多了一个NameServer的概念，其实和Zookeeper的作用差不多，都是注册中心，生产者，消费者，还有组成MQ节点的Broker都会向NameServer注册服务，它起到了服务发现，调度，路">
+<meta name="keywords" content="MQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQ系列6：RocketMQ的高可用架构">
+<meta property="og:url" content="http://yoursite.com/2019/08/19/MQ系列6：RocketMQ的高可用架构/index.html">
 <meta property="og:site_name" content="CodingXXM&#39;s Space">
-<meta property="og:description" content="Now Learning">
+<meta property="og:description" content="RocketMQ的高可用性如何保障？先看一下RocketMQ经典的双主双从模式部署图   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;RocketMQ多了一个NameServer的概念，其实和Zookeeper的作用差不多，都是注册中心，生产者，消费者，还有组成MQ节点的Broker都会向NameServer注册服务，它起到了服务发现，调度，路">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/.com//rocketmq.png">
+<meta property="og:updated_time" content="2019-08-19T16:01:45.943Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodingXXM&#39;s Space">
-<meta name="twitter:description" content="Now Learning">
+<meta name="twitter:title" content="MQ系列6：RocketMQ的高可用架构">
+<meta name="twitter:description" content="RocketMQ的高可用性如何保障？先看一下RocketMQ经典的双主双从模式部署图   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;RocketMQ多了一个NameServer的概念，其实和Zookeeper的作用差不多，都是注册中心，生产者，消费者，还有组成MQ节点的Broker都会向NameServer注册服务，它起到了服务发现，调度，路">
+<meta name="twitter:image" content="http://yoursite.com/.com//rocketmq.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingXXM&#39;s Space" type="application/atom+xml">
   
@@ -144,36 +147,42 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-MQ系列6：RocketMQ的高可用架构" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MQ系列6：RocketMQ的高可用架构
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/" class="archive-article-date">
+
+        
+        <a href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/" class="archive-article-date">
   	<time datetime="2019-08-19T15:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/">MQ系列6：RocketMQ的高可用架构</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<h2 id="RocketMQ的高可用性如何保障？"><a href="#RocketMQ的高可用性如何保障？" class="headerlink" title="RocketMQ的高可用性如何保障？"></a>RocketMQ的高可用性如何保障？</h2><h3 id="先看一下RocketMQ经典的双主双从模式部署图"><a href="#先看一下RocketMQ经典的双主双从模式部署图" class="headerlink" title="先看一下RocketMQ经典的双主双从模式部署图"></a>先看一下RocketMQ经典的双主双从模式部署图</h3></blockquote>
+<hr>
+<p><img src="/.com//rocketmq.png" alt="双主双从模式部署图"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RocketMQ多了一个NameServer的概念，其实和Zookeeper的作用差不多，都是注册中心，生产者，消费者，还有组成MQ节点的Broker都会向NameServer注册服务，它起到了服务发现，调度，路由，负载的作用。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个图上面，我们延伸一下，把双主双从变为多主多从，感觉就会更为可靠。RocketMQ的高可用性首先在NameServer就保证了，NameServer一定是一个集群，每一个NameServer节点之间都互不通信，毫无关系，都同样全量的记录着所有注册的信息，这样当某一台挂了，不会影响集群的作用。在Broker集群内，因为是多主N从，每一个Master角色的Broker节点都会有N个Salve角色的Broker节点来做数据同步。其中，Master节点负责数据的读写，而Slave节点同步数据后只能提供读服务。当Master节点挂掉后，RocketMQ并没有主从切换的机制，Slave只能提供读服务，但是我们可以手动去做这个切换，写脚本改配置文件，将某一台Slave节点角色修改为Master，重启服务，这样就能接着提供读写服务了，这就是多Slave的好处，这属于一种冷切换。还有个问题，Slave是从Master同步数据的，那么Master挂掉的时候，就很有可能有数据没有同步过来，那么活着的节点就没有这个数据，就无法消费，消息就丢了。但是也不用担心，数据持久化了，那台挂掉的Broker再恢复重启后，那些消息还在，最终也是会被消费掉的。</p>
+<blockquote>
+<h3 id="所以做好配置，准备好这种切换机制，也就保证了高可用性。"><a href="#所以做好配置，准备好这种切换机制，也就保证了高可用性。" class="headerlink" title="所以做好配置，准备好这种切换机制，也就保证了高可用性。"></a>所以做好配置，准备好这种切换机制，也就保证了高可用性。</h3></blockquote>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -185,251 +194,55 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列5：Kafka的高可用架构/" class="archive-article-date">
-  	<time datetime="2019-08-19T12:52:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/19/MQ系列5：Kafka的高可用架构/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MQ系列5：Kafka的高可用架构</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列5：Kafka的高可用架构/">MQ系列5：Kafka的高可用架构</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列4：RabbitMQ的镜像集群模式/" class="archive-article-date">
-  	<time datetime="2019-08-19T08:46:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列4：RabbitMQ的镜像集群模式/">MQ系列4：RabbitMQ的镜像集群模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/" class="archive-article-date">
-  	<time datetime="2019-08-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/">MQ系列3：RabbitMQ的普通集群模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列2：MQ的选型和比较/" class="archive-article-date">
-  	<time datetime="2019-08-19T05:23:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列2：MQ的选型和比较/">MQ系列2：MQ的选型和比较</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/17/MQ系列1：我为什么要用消息队列？/" class="archive-article-date">
-  	<time datetime="2019-08-17T10:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MQ系列1：我为什么要用消息队列？/">MQ系列1：我为什么要用消息队列？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/17/终于还是要写博客了/" class="archive-article-date">
-  	<time datetime="2019-08-17T09:51:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/终于还是要写博客了/">终于还是要写博客了</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -452,8 +265,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
