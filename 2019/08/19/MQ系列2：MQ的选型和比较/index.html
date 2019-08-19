@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | CodingXXM&#39;s Space</title>
+  <title>MQ系列2：MQ的选型和比较 | CodingXXM&#39;s Space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Now Learning">
-<meta name="keywords" content="codingxxm">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CodingXXM&#39;s Space">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+  <meta name="description" content="在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了,所以我基于我的角度再来总结下。    特性 ActiveMQ RabbitMQ RocketMQ Kafka    单机吞吐量 万级 万级 十万级 十万级   消息可靠性 较低概">
+<meta name="keywords" content="MQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQ系列2：MQ的选型和比较">
+<meta property="og:url" content="http://yoursite.com/2019/08/19/MQ系列2：MQ的选型和比较/index.html">
 <meta property="og:site_name" content="CodingXXM&#39;s Space">
-<meta property="og:description" content="Now Learning">
+<meta property="og:description" content="在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了,所以我基于我的角度再来总结下。    特性 ActiveMQ RabbitMQ RocketMQ Kafka    单机吞吐量 万级 万级 十万级 十万级   消息可靠性 较低概">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-19T05:59:41.404Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodingXXM&#39;s Space">
-<meta name="twitter:description" content="Now Learning">
+<meta name="twitter:title" content="MQ系列2：MQ的选型和比较">
+<meta name="twitter:description" content="在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了,所以我基于我的角度再来总结下。    特性 ActiveMQ RabbitMQ RocketMQ Kafka    单机吞吐量 万级 万级 十万级 十万级   消息可靠性 较低概">
   
     <link rel="alternative" href="/atom.xml" title="CodingXXM&#39;s Space" type="application/atom+xml">
   
@@ -144,36 +145,87 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-MQ系列2：MQ的选型和比较" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MQ系列2：MQ的选型和比较
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/19/MQ系列2：MQ的选型和比较/" class="archive-article-date">
+
+        
+        <a href="/2019/08/19/MQ系列2：MQ的选型和比较/" class="archive-article-date">
   	<time datetime="2019-08-19T05:23:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MQ系列2：MQ的选型和比较/">MQ系列2：MQ的选型和比较</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<h3 id="在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ"><a href="#在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ" class="headerlink" title="在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ"></a>在市面上，目前有几种主流的MQ，利用互联网获取的信息来调研一下我们适合用哪种MQ</h3><h3 id="目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了-所以我基于我的角度再来总结下。"><a href="#目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了-所以我基于我的角度再来总结下。" class="headerlink" title="目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了,所以我基于我的角度再来总结下。"></a>目前主流的耳熟能详的4种，ActiveMQ、RabbitMQ、RocketMQ、Kafka，网上已经有很多那种表格来描述和对比这四种MQ了,所以我基于我的角度再来总结下。</h3></blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">ActiveMQ</th>
+<th align="left">RabbitMQ</th>
+<th align="left">RocketMQ</th>
+<th align="left">Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">单机吞吐量</td>
+<td align="left">万级</td>
+<td align="left">万级</td>
+<td align="left">十万级</td>
+<td align="left">十万级</td>
+</tr>
+<tr>
+<td align="left">消息可靠性</td>
+<td align="left">较低概率丢失消息</td>
+<td align="left">少量消息丢失</td>
+<td align="left">配置可以做到0丢失</td>
+<td align="left">配置可以做到0丢失</td>
+</tr>
+<tr>
+<td align="left">延时</td>
+<td align="left">毫秒</td>
+<td align="left">微妙</td>
+<td align="left">毫秒</td>
+<td align="left">微妙</td>
+</tr>
+<tr>
+<td align="left">核心特点</td>
+<td align="left">MQ功能完善</td>
+<td align="left">并发性能好，延时最低</td>
+<td align="left">MQ功能完善，分布式，扩展性强</td>
+<td align="left">功能简单，大数据领域的事实标准</td>
+</tr>
+<tr>
+<td align="left">优劣</td>
+<td align="left">成熟，但是目前官方支持越来越少，丢消息</td>
+<td align="left">erlang开发并发性能好，控制台界面好，但是这个语言…</td>
+<td align="left">接口简单，阿里出品有保障</td>
+<td align="left">吞吐量大，功能简单</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>以上是我对4个MQ的总结，实际上不可能都用过，这些信息也是从网上找到的信息，只写了一些我关注的部分，当然也可能有错误，请帮助改正谢谢。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从我的角度来看，从上面字面意思来看，我肯定想要消息可靠性高的，其次是吞吐量大的，之后是扩展好。所以经过第一轮筛选，ActiveMQ就被干掉了。RabbitMQ让我很心动，但是看吞吐量，我觉得还是要干掉。剩RocketMQ和Kafka了，Kafka功能太简单，目前来看功能也够用，但是按照项目计划，之后的MQ功能会被用起来，所以还是选RocketMQ是最合适的。当然还有一个最重要的点，我们目前使用的是阿里私有云，RocketMQ已经作为一个产品集成进平台了，我们可以直接用，运维这块不用我们操心了，高可用架构什么的也已经是现成的了。所以从使用上来讲，肯定是第一选择啦。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当然后续我也会对RabbitMQ，RocketMQ，Kafka在保证高可用性上进行研究，慢慢学习啦。毕竟不是每个人都可以直接使用N台服务器去具体部署架构，但是理论知识还是要学习的~</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -185,99 +237,55 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/17/MQ系列1：我为什么要用消息队列？/" class="archive-article-date">
-  	<time datetime="2019-08-17T10:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/17/MQ系列1：我为什么要用消息队列？/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MQ系列1：我为什么要用消息队列？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MQ系列1：我为什么要用消息队列？/">MQ系列1：我为什么要用消息队列？</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/17/终于还是要写博客了/" class="archive-article-date">
-  	<time datetime="2019-08-17T09:51:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/终于还是要写博客了/">终于还是要写博客了</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -300,8 +308,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
