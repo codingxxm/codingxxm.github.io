@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>MQ系列1：我为什么要用消息队列？ | CodingXXM&#39;s Space</title>
+  <title>AtomicInteger的incrementAndGet()如何保证原子性 | CodingXXM&#39;s Space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MQ算是现在一个面试必问题了，我之前还真没在工作中实际用过MQ中间件，只是用过一些内存队列。在我看来，MQ中间件其实也是放大了quene的作用，完善了它的功能，最终成为了生产环境的一个利器。   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;先不谈什么高可用架构，什么生产最佳实践，只是来说下为什么我现在的项目需要用消息中间">
-<meta name="keywords" content="MQ">
+  <meta name="description" content="学习与思考，AtomicInteger中的方法是如何保证原子性的？多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。  那么来实操一下，看看使用Ato">
+<meta name="keywords" content="CAS,原子性,并发编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MQ系列1：我为什么要用消息队列？">
-<meta property="og:url" content="http://yoursite.com/2019/08/17/MQ系列1：我为什么要用消息队列？/index.html">
+<meta property="og:title" content="AtomicInteger的incrementAndGet()如何保证原子性">
+<meta property="og:url" content="http://yoursite.com/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/index.html">
 <meta property="og:site_name" content="CodingXXM&#39;s Space">
-<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MQ算是现在一个面试必问题了，我之前还真没在工作中实际用过MQ中间件，只是用过一些内存队列。在我看来，MQ中间件其实也是放大了quene的作用，完善了它的功能，最终成为了生产环境的一个利器。   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;先不谈什么高可用架构，什么生产最佳实践，只是来说下为什么我现在的项目需要用消息中间">
+<meta property="og:description" content="学习与思考，AtomicInteger中的方法是如何保证原子性的？多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。  那么来实操一下，看看使用Ato">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/17/MQ%E7%B3%BB%E5%88%971%EF%BC%9A%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F/mq_1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/17/MQ%E7%B3%BB%E5%88%971%EF%BC%9A%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F/mq_2.png">
-<meta property="og:updated_time" content="2019-08-19T03:52:47.000Z">
+<meta property="og:updated_time" content="2019-08-28T16:39:17.718Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MQ系列1：我为什么要用消息队列？">
-<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MQ算是现在一个面试必问题了，我之前还真没在工作中实际用过MQ中间件，只是用过一些内存队列。在我看来，MQ中间件其实也是放大了quene的作用，完善了它的功能，最终成为了生产环境的一个利器。   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;先不谈什么高可用架构，什么生产最佳实践，只是来说下为什么我现在的项目需要用消息中间">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/17/MQ%E7%B3%BB%E5%88%971%EF%BC%9A%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F/mq_1.png">
+<meta name="twitter:title" content="AtomicInteger的incrementAndGet()如何保证原子性">
+<meta name="twitter:description" content="学习与思考，AtomicInteger中的方法是如何保证原子性的？多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。  那么来实操一下，看看使用Ato">
   
     <link rel="alternative" href="/atom.xml" title="CodingXXM&#39;s Space" type="application/atom+xml">
   
@@ -148,20 +145,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-MQ系列1：我为什么要用消息队列？" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-AtomicInteger的incrementAndGet-如何保证原子性" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      MQ系列1：我为什么要用消息队列？
+      AtomicInteger的incrementAndGet()如何保证原子性
     </h1>
   
 
         
-        <a href="/2019/08/17/MQ系列1：我为什么要用消息队列？/" class="archive-article-date">
-  	<time datetime="2019-08-17T10:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
+        <a href="/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/" class="archive-article-date">
+  	<time datetime="2019-08-28T15:27:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
 </a>
         
       </header>
@@ -169,36 +166,46 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;MQ算是现在一个面试必问题了，我之前还真没在工作中实际用过MQ中间件，只是用过一些内存队列。在我看来，MQ中间件其实也是放大了quene的作用，完善了它的功能，最终成为了生产环境的一个利器。</p>
-</blockquote>
+<h2 id="学习与思考，AtomicInteger中的方法是如何保证原子性的？"><a href="#学习与思考，AtomicInteger中的方法是如何保证原子性的？" class="headerlink" title="学习与思考，AtomicInteger中的方法是如何保证原子性的？"></a>学习与思考，AtomicInteger中的方法是如何保证原子性的？</h2><h4 id="多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。"><a href="#多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。" class="headerlink" title="多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。"></a>多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。</h4></blockquote>
 <hr>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;先不谈什么高可用架构，什么生产最佳实践，只是来说下为什么我现在的项目需要用消息中间件呢。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们线上有一个消息推送系统，这个系统是给我们的app进行消息推送的，它整合了苹果的APNS，华为推送，小米推送，做到了跨平台全品牌的推送。其中ios设备走APNS，华为设备走华为推送，其他安卓设备都走小米推送，只要证书和其他信息配置对，就可以实现对同一个app的多端推送。这个系统代码不是我写的，但是改过一些，所以我熟悉源码，也看出这个系统的设计有着致命的缺陷。</p>
+<h2 id="那么来实操一下，看看使用Atomic与不使用的效果。"><a href="#那么来实操一下，看看使用Atomic与不使用的效果。" class="headerlink" title="那么来实操一下，看看使用Atomic与不使用的效果。"></a>那么来实操一下，看看使用Atomic与不使用的效果。</h2><blockquote>
+<blockquote>
+<p>不使用Atomic</p>
+</blockquote>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实现一个计数的小程序，线程池内扔500个线程同时对count进行加操作，按照预期结果，每个线程对count加1，最后会输出500。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> threadCount = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count ++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="keyword">final</span> CountTest test = <span class="keyword">new</span> CountTest();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++) &#123;</span><br><span class="line">            executorService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    test.add();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">        System.out.println(count);</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>测试5次，输出结果为486，483，481，491，486</p>
+</blockquote>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很显然，多线程情况下并发的去操作的时候，由于这个操作不是原子性的，同一时刻N个线程去写数据，导致最后的总和小于500.</p>
 <a id="more"></a>
+
 <blockquote>
-<h3 id="系统主要分为两大部分"><a href="#系统主要分为两大部分" class="headerlink" title="系统主要分为两大部分"></a>系统主要分为两大部分</h3></blockquote>
-<hr>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第一：系统设计了一系列的接口，比如设备注册，group注册，按类型推送消息等，这些对外的接口，接收到数据进行业务处理后，会直接存到mysql数据库里。也就是说，这些接口实际直接和数据库进行交互。比如消息推送接口，收到要推送的消息信息，会直接存到数据库的消息流水表里，某一个字段表示该条消息为“未推送”状态。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二：系统内有一个推送工作类，在系统启动之后这个类就初始化了，并且里面用来执行的推送工作的方法start()已经被调用。这个类在初始化的时候，在构造方法里先初始化了一个线程池，这个线程池就作为之后推送任务线程的容器。在推送工作类的start方法里，首先往推送线程池里塞了一个匿名线程，这个线程启了一个条件为true的while循环，while循环内的程序流程为先判断消息流水表是否被锁住，如果锁住了，那么就等待100毫秒，否则就对这张表加锁，这是设计的槽点之一。加锁成功后，会根据状态字段查出所有未推送和推送失败次数小于3的消息，组装成一个List，这是设计的槽点之二。如果List不为空，那么则更新这些消息在数据库中的状态字段，更新为“推送中”，之后会new一个消息推送线程，在初始化的时候利用构造方法将待推送的消息的List传入线程内，然后将消息推送线程塞到线程池内去异步推送，然后会对消息流水表解锁。（这个消息推送线程的run方法主要就是遍历传入的待推送消息List，然后逐条推送，推送完后更新这些消息在数据库里的状态，更新为“推送完成”或“推送失败”。）这样，匿名线程的while循环就一直在执行，然后会一直对消息流水表尝试加锁，每次加锁成功都会获取当前未推送的消息，然后new一个推送线程去线程池里推送。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;大概就上面说的这个流程，可能文字看着太多，比较苍白，我画个图。</p>
-<hr>
-<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/17/MQ%E7%B3%BB%E5%88%971%EF%BC%9A%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F/mq_1.png" alt="系统示意图1"></p>
 <blockquote>
-<h2 id="那么问题就来了"><a href="#那么问题就来了" class="headerlink" title="那么问题就来了"></a>那么问题就来了</h2><ol>
-<li>接口收到请求后直接和数据库交互，进行插入操作，现在用户在10W左右，日活在1W+左右，有推送权限的不过几千用户，未来会增长到60W~70W左右用户量，预计日活10W+，到时所有用户都将开启推送权限。那么在业务高峰期，推送并发请求量将是现在的百倍以上。数据库使用的是阿里私有云的MySql数据库（私有云不是公网阿里云，是买的阿里云产品之后在自己机房搭建的，由于XXX原因，性能远不如公网产品，甚至有点烂…），目前使用的不是分布式数据库，所以单机性能让人怀疑。在比现在百倍压力下，基本可以断定，数据库承受不了这个压力。</li>
-<li>上面的锁表操作可以说是最大的败笔之一，因为这个锁表，导致这个消息推送服务无法集群部署，或者说无效的集群部署。当某一个节点的服务将表锁住，其他所有节点的服务都只能等着，表解锁后，其他所有服务的线程都一起抢着对表加锁，只有一个线程能抢到，然后其他所有节点的服务又都在等着。也就是说，同时只有一个节点的服务在起作用，这和单机部署没什么区别…</li>
-<li>上面的匿名线程在加锁成功后会获取当前表内所有未推送的消息，然后组装成List进行推送。如果，推送量上来，这个未推送消息会特别特别多的时候，一次性读取后在内存中进行遍历拼装的时候，可能会把内存撑满。</li>
-</ol>
+<p>使用Atomic</p>
 </blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所以想想，这个系统的设计是有很大问题的。无法承受高并发，无法集群部署，代码有严重漏洞。所以针对这些问题，想了想，MQ不就是为了解决这个的吗。异步，削峰，解耦，这些概念都不是白说的，这个系统会利用MQ的优点来进行优化。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预期会输出500。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger count = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> threadCount = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">        count.incrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="keyword">final</span> CountTest test = <span class="keyword">new</span> CountTest();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++) &#123;</span><br><span class="line">            executorService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    test.add();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">        System.out.println(count.get());</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<h2 id="说了我要用MQ的原因，下面展示一下加了MQ之后的系统"><a href="#说了我要用MQ的原因，下面展示一下加了MQ之后的系统" class="headerlink" title="说了我要用MQ的原因，下面展示一下加了MQ之后的系统"></a>说了我要用MQ的原因，下面展示一下加了MQ之后的系统</h2></blockquote>
-<hr>
-<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/17/MQ%E7%B3%BB%E5%88%971%EF%BC%9A%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F/mq_2.png" alt="系统示意图2"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说用到MQ异步的话，说起来有些牵强，因为系统的主要功能本来也是设计的利用线程池来异步推送，但是接口那部分，原先的请求是和数据库做交互后响应的同步过程，现在推到MQ后直接响应，也算是对异步的运用。削峰就很明显了，原来直接入库的请求，现在先到MQ里，就算比现在百倍的并发，MQ也可以扛得住，完美削峰。解耦的话，并没有减轻两个系统之间的耦合度，之前那个“锁表”的操作，使得单台服务和数据库耦合度太高（这样说感觉有点牵强），现在加了MQ，把系统内部的耦合去除了，使得服务可以集群部署，提升了服务的可用性。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MQ之所以取代之前MySql的位置，而不是直接加在系统最前方的原因是，这样修改后，原先的对外暴露接口还是不变的，只是接口后方变成和MQ交互，调用方还是调用以前的接口，他们不需要做改变，这样把复杂度进一步降低了。也就是说，生产者是这个服务，消费者也是这个服务。当然，对MQ进行消费的时候还是采用批量定量消费，以防撑爆内存。这样，就对一个濒临死亡的服务，利用MQ给盘活了！</p>
 <blockquote>
-<h2 id="感觉所有的技术都不是为了用而去使用，是真的有场景需要去用，这时候，选择合适的技术来解决问题真的是很重要的。"><a href="#感觉所有的技术都不是为了用而去使用，是真的有场景需要去用，这时候，选择合适的技术来解决问题真的是很重要的。" class="headerlink" title="感觉所有的技术都不是为了用而去使用，是真的有场景需要去用，这时候，选择合适的技术来解决问题真的是很重要的。"></a>感觉所有的技术都不是为了用而去使用，是真的有场景需要去用，这时候，选择合适的技术来解决问题真的是很重要的。</h2></blockquote>
+<p>测试5次，输出结果均为500</p>
+</blockquote>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么其实就可以说明了AtomicInteger的操作具有原子性，同一时刻只能有一个线程去进行操作。那么我探究下，为啥这个incrementAndGet()方法是原子性操作呢。点击进去查看源码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Unsafe unsafe = Unsafe.getUnsafe();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> valueOffset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        valueOffset = unsafe.objectFieldOffset</span><br><span class="line">            (AtomicInteger.class.getDeclaredField(<span class="string">"value"</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception ex) &#123; <span class="keyword">throw</span> <span class="keyword">new</span> Error(ex); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Creates a new AtomicInteger with the given initial value.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> initialValue the initial value</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AtomicInteger</span><span class="params">(<span class="keyword">int</span> initialValue)</span> </span>&#123;</span><br><span class="line">    value = initialValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">incrementAndGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> unsafe.getAndAddInt(<span class="keyword">this</span>, valueOffset, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先AtomicInteger初始化的时候，传入的值会赋值给value这个成员变量。源码内incrementAndGet()其实调用的是Unsafe实例的getAndAddInt()方法，传入的是AtomicInteger本身的引用，以及valueOffset，这个valueOffset查看上面的源码，发现调用的也是Unsafe的方法，叫做objectFieldOffset()，暂时不探究这个方法具体怎么操作的，但是我知道这个值代表的是，value这个变量在AtomicInteger这个对象内的偏移量，我理解就是AtomicInteger的地址加上这个偏移量，那么就能找到这个value具体的值。getAndAddInt()第三个参数是1，表示自增1。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;再点进getAndAddInt()方法，已经到了Unsafe类里。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getAndAddInt</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">int</span> var4)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> var5;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        var5 = <span class="keyword">this</span>.getIntVolatile(var1, var2);</span><br><span class="line">    &#125; <span class="keyword">while</span>(!<span class="keyword">this</span>.compareAndSwapInt(var1, var2, var5, var5 + var4));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> var5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;终于到了这里。看到了compareAndSwapInt()，经典的CAS操作。解读这个方法，使用了do while循环，那么do内的语句会先执行，然后while会进行条件判断，再决定是否依旧循环，就这么循环着~</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先定义了变量var5，然后执行do里面的语句，getIntVolatile(var1, var2)，var1是刚才传入的AtomicInteger对象，var2是AtomicInteger对象内成员变量value的偏移量，那么这个方法会返回此时AtomicInteger内value最新的值，赋值给var5，此时var5就是最新的值。注意是此时最新的值，因为是刚寻址找到的。然后执行while内的语句，compareAndSwapInt(var1, var2, var5, var5 + var4)，CAS操作，var1和var2两个参数能找到此时AtomicInteger内value最新的值，var5是刚才寻址的最新的值，也就是我们期望此刻的值，如果两个时刻找到的最新值相等，实际值等于期望值，说明此时没有线程改变这个值，那么就进行update操作，把最新值换为var5 + var4，也就是自增1操作。否则，两个时刻最新值不相等，实际值不等于期望值，那么CAS操作失败，因为取反，所以会又执行do里的语句，接着获当前时刻最新的值，然后while语句就这么循环。如果一直有变化，那么就一直循环，这就是自旋。直到CAS成功，取反后，结束while循环，此时最新值已经被改变。需要声明的一点是，这个更新是不可被打断的，所以这种自旋就实现了原子性操作，即不加锁，也可以实现同时只有一个线程可以操作。至于为什么这个更新不可被打断，我还在学习中。</p>
 
       
 
@@ -212,7 +219,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CAS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">原子性</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">并发编程</a>
         		</li>
       		
 		</ul>
@@ -231,18 +246,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/08/19/MQ系列2：MQ的选型和比较/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          MQ系列2：MQ的选型和比较
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/17/终于还是要写博客了/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">终于还是要写博客了</div>
+    <a href="/2019/08/19/MQ系列6：RocketMQ的高可用架构/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MQ系列6：RocketMQ的高可用架构</div>
       <i class="icon-circle-right"></i>
     </a>
   

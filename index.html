@@ -146,6 +146,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-AtomicInteger的incrementAndGet-如何保证原子性" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/">AtomicInteger的incrementAndGet()如何保证原子性</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/" class="archive-article-date">
+  	<time datetime="2019-08-28T15:27:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<h2 id="学习与思考，AtomicInteger中的方法是如何保证原子性的？"><a href="#学习与思考，AtomicInteger中的方法是如何保证原子性的？" class="headerlink" title="学习与思考，AtomicInteger中的方法是如何保证原子性的？"></a>学习与思考，AtomicInteger中的方法是如何保证原子性的？</h2><h4 id="多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。"><a href="#多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。" class="headerlink" title="多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。"></a>多线程环境，保证数据的安全，其实就是控制达到实现线程安全。我们常见的就是synchronized关键字，但是synchronized采用的是悲观锁策略，不是特别高效的一种方案。除此之外，还有一些采用乐观锁策略的方案，比如java内的Atomic包，这个包内的类的方法都保证了原子性，实现了线程安全。</h4></blockquote>
+<hr>
+<h2 id="那么来实操一下，看看使用Atomic与不使用的效果。"><a href="#那么来实操一下，看看使用Atomic与不使用的效果。" class="headerlink" title="那么来实操一下，看看使用Atomic与不使用的效果。"></a>那么来实操一下，看看使用Atomic与不使用的效果。</h2><blockquote>
+<blockquote>
+<p>不使用Atomic</p>
+</blockquote>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实现一个计数的小程序，线程池内扔500个线程同时对count进行加操作，按照预期结果，每个线程对count加1，最后会输出500。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> threadCount = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count ++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="keyword">final</span> CountTest test = <span class="keyword">new</span> CountTest();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++) &#123;</span><br><span class="line">            executorService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    test.add();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">        System.out.println(count);</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>测试5次，输出结果为486，483，481，491，486</p>
+</blockquote>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很显然，多线程情况下并发的去操作的时候，由于这个操作不是原子性的，同一时刻N个线程去写数据，导致最后的总和小于500.</p>
+        
+          <a class="article-more-a" href="/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CAS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">原子性</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">并发编程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MQ系列6：RocketMQ的高可用架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -845,6 +945,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CAS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">原子性</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">并发编程</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">MQ</a>
