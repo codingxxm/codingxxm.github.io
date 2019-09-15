@@ -6,22 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>MQ系列4：RabbitMQ的镜像集群模式 | CodingXXM&#39;s Space</title>
+  <title>初识MqSql索引 | CodingXXM&#39;s Space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学一下RabbitMQ的高可用性如何保障学一下RabbitMQ的镜像集群模式，示意图如下   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。叫镜像集群模式，是因为除了拥有quene的那个节点外，其他的节点都拥有这个quene的镜像，会完整的同步一份。这样不管消">
-<meta name="keywords" content="MQ">
+  <meta name="description" content="MySql数据库索引 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;首先明确：MySql的数据是存储在磁盘上的，查询数据实际上就是做磁盘I/O操作，索引也一样。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MySql支持的不同索引，如B+ Tree和hash，当然，区分于不同的存储引擎，这次只说">
+<meta name="keywords" content="MySql,数据库,索引">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MQ系列4：RabbitMQ的镜像集群模式">
-<meta property="og:url" content="http://yoursite.com/2019/08/19/MQ系列4：RabbitMQ的镜像集群模式/index.html">
+<meta property="og:title" content="初识MqSql索引">
+<meta property="og:url" content="http://yoursite.com/2019/09/15/初识MqSql索引/index.html">
 <meta property="og:site_name" content="CodingXXM&#39;s Space">
-<meta property="og:description" content="学一下RabbitMQ的高可用性如何保障学一下RabbitMQ的镜像集群模式，示意图如下   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。叫镜像集群模式，是因为除了拥有quene的那个节点外，其他的节点都拥有这个quene的镜像，会完整的同步一份。这样不管消">
+<meta property="og:description" content="MySql数据库索引 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;首先明确：MySql的数据是存储在磁盘上的，查询数据实际上就是做磁盘I/O操作，索引也一样。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MySql支持的不同索引，如B+ Tree和hash，当然，区分于不同的存储引擎，这次只说">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/19/MQ%E7%B3%BB%E5%88%974%EF%BC%9ARabbitMQ%E7%9A%84%E9%95%9C%E5%83%8F%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F/mq.png">
-<meta property="og:updated_time" content="2019-08-19T12:51:52.307Z">
+<meta property="og:image" content="http://yoursite.com/.com//table.png">
+<meta property="og:image" content="http://yoursite.com/.com//binarytree1.png">
+<meta property="og:image" content="http://yoursite.com/.com//binarytree2.png">
+<meta property="og:image" content="http://yoursite.com/.com//redblacktree1.png">
+<meta property="og:image" content="http://yoursite.com/.com//redblacktree2.png">
+<meta property="og:image" content="http://yoursite.com/.com//b1.png">
+<meta property="og:image" content="http://yoursite.com/.com//b2.png">
+<meta property="og:image" content="http://yoursite.com/.com//b+1.png">
+<meta property="og:image" content="http://yoursite.com/.com//b+2.png">
+<meta property="og:updated_time" content="2019-09-15T16:43:59.594Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MQ系列4：RabbitMQ的镜像集群模式">
-<meta name="twitter:description" content="学一下RabbitMQ的高可用性如何保障学一下RabbitMQ的镜像集群模式，示意图如下   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。叫镜像集群模式，是因为除了拥有quene的那个节点外，其他的节点都拥有这个quene的镜像，会完整的同步一份。这样不管消">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/19/MQ%E7%B3%BB%E5%88%974%EF%BC%9ARabbitMQ%E7%9A%84%E9%95%9C%E5%83%8F%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F/mq.png">
+<meta name="twitter:title" content="初识MqSql索引">
+<meta name="twitter:description" content="MySql数据库索引 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;首先明确：MySql的数据是存储在磁盘上的，查询数据实际上就是做磁盘I/O操作，索引也一样。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MySql支持的不同索引，如B+ Tree和hash，当然，区分于不同的存储引擎，这次只说">
+<meta name="twitter:image" content="http://yoursite.com/.com//table.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingXXM&#39;s Space" type="application/atom+xml">
   
@@ -147,20 +155,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-MQ系列4：RabbitMQ的镜像集群模式" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-初识MqSql索引" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      MQ系列4：RabbitMQ的镜像集群模式
+      初识MqSql索引
     </h1>
   
 
         
-        <a href="/2019/08/19/MQ系列4：RabbitMQ的镜像集群模式/" class="archive-article-date">
-  	<time datetime="2019-08-19T08:46:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
+        <a href="/2019/09/15/初识MqSql索引/" class="archive-article-date">
+  	<time datetime="2019-09-15T15:28:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-15</time>
 </a>
         
       </header>
@@ -168,10 +176,89 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<h2 id="学一下RabbitMQ的高可用性如何保障"><a href="#学一下RabbitMQ的高可用性如何保障" class="headerlink" title="学一下RabbitMQ的高可用性如何保障"></a>学一下RabbitMQ的高可用性如何保障</h2><h3 id="学一下RabbitMQ的镜像集群模式，示意图如下"><a href="#学一下RabbitMQ的镜像集群模式，示意图如下" class="headerlink" title="学一下RabbitMQ的镜像集群模式，示意图如下"></a>学一下RabbitMQ的镜像集群模式，示意图如下</h3></blockquote>
+<h1 id="MySql数据库索引"><a href="#MySql数据库索引" class="headerlink" title="MySql数据库索引"></a>MySql数据库索引</h1></blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先明确：MySql的数据是存储在磁盘上的，查询数据实际上就是做磁盘I/O操作，索引也一样。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySql支持的不同索引，如B+ Tree和hash，当然，区分于不同的存储引擎，这次只说B+ Tree索引。</p>
+<blockquote>
+<p>我对于索引的理解：索引是使数据库能高速查询的排好序的数据结构</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;既然是数据结构，那么就有N种数据结构，为什么最后用了B+ Tree呢，其他Tree如何？在此做一些比较。</p>
 <hr>
-<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/08/19/MQ%E7%B3%BB%E5%88%974%EF%BC%9ARabbitMQ%E7%9A%84%E9%95%9C%E5%83%8F%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F/mq.png" alt="部署示意图"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比如我们搭建一个RabbitMQ的集群，有四台服务器作为四个节点，每个节点部署一个MQ。叫镜像集群模式，是因为除了拥有quene的那个节点外，其他的节点都拥有这个quene的镜像，会完整的同步一份。这样不管消费者连接到哪个节点，都可以获取到想要的数据。如果某一个节点挂掉了，其他节点还可以正常工作下去，比普通集群模式更为可靠。可以说，做到了高可用性。但是，这不是分布式的~</p>
+<p>以下图所示的数据为例，三个字段，id为整型自增主键，name和age为普通字段。将age字段或id字段作为唯一索引，比较下在这几种树形结构中的查询速度。查询第五行的数据，查询SQL为：</p>
+<p>1：select * from t where age = 25;</p>
+<p>2：select * from t where id = 5</p>
+<a id="more"></a>
+<p><img src="/.com//table.png" alt="table"></p>
+<p>二叉树 –&gt;  红黑树–&gt; B树 –&gt; B+树</p>
+<blockquote>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3></blockquote>
+<p>（1）将age字段建立索引执行查询</p>
+<p><img src="/.com//binarytree1.png" alt="二叉树1"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;需要查找四次，进行四次磁盘I/O操作，效率一般般，但是看上去勉强可用。</p>
+<p>（2）将id字段建立索引执行查询</p>
+<p><img src="/.com//binarytree2.png" alt="二叉树2"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个图就是二叉树的一种极端情况，在某种场景下变成有N个节点的线性链表。这时候，需要进行五次磁盘I/O操作，数据量大，简直无法使用，所以使用二叉树作为索引的存储结构就直接pass了。</p>
+<blockquote>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3></blockquote>
+<p>（1）将age字段建立索引执行查询</p>
+<p><img src="/.com//redblacktree1.png" alt="红黑树1"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很显然，比上面的二叉树查找效率要高。</p>
+<p>（2）将id字段建立索引执行查询</p>
+<p><img src="/.com//redblacktree2.png" alt="红黑树2"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类似于二叉树将age作为索引的查询效果，也要进行好几次磁盘I/O操作。因为二叉树会自旋，调整自己的结构，相同数据比二叉树的层数深度小，但仍然会做N次磁盘I/O，感觉并不是最佳方案。</p>
+<blockquote>
+<h3 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h3></blockquote>
+<p>（1）将age字段建立索引执行查询</p>
+<p><img src="/.com//b1.png" alt="红黑树1"></p>
+<p>（2）将id字段建立索引执行查询</p>
+<p><img src="/.com//b2.png" alt="红黑树2"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B树和上面的结构不一样，B树每个节点存储的除了索引外，还存储了对应的行数据，但是层数仍是一直在变化，并不稳定。还有就是范围查找，如果查找大于某个值，那么久会频繁的从根节点开始查找，效率低。</p>
+<blockquote>
+<h3 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+ 树"></a>B+ 树</h3></blockquote>
+<p>（1）将age字段建立索引执行查询</p>
+<p><img src="/.com//b+1.png" alt="红黑树1"></p>
+<p>（2）将id字段建立索引执行查询</p>
+<p><img src="/.com//b+2.png" alt="红黑树2"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;会发现有明显不同。需要解释的是，非叶子节点只存储索引（B树是索引+行数据），叶子节点存储冗余索引（方便进行查询，子节点大于等于根节点）和数据行的指针，节点默认固定大小为16K，所以单节点B+树比B树存储的索引值多很多（因为不需要存储行数据），所以层数深度就小，磁盘I/O就少，查询快速，相对更稳定些。（还涉及到范围查找），Mysql实现的b+树叶子节点指针是双向的，方便查找，如果查找大于某个值，只需要从根节点查找一次后，找到边界值，凭借双向指针，即可找到后面的值，效率高。</p>
+<blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2></blockquote>
+<blockquote>
+<blockquote>
+<p>非聚集索引：如MyiSAM引擎的索引存储方式，索引文件和数据文件分开就叫非聚集索引</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>聚集索引：如InnoDM引擎内的主键索引存储方式，索引文件和数据文件一起存储的就叫聚集索引。聚集索引的叶节点包含了完整的数据记录。</p>
+</blockquote>
+</blockquote>
+<p>存储引擎</p>
+<p>MyISam和InnoDB</p>
+<p>MyISam的主键索引和非主键索引存储结构差不多</p>
+<p>索引文件和数据文件分开（非聚集）</p>
+<p>InnoDB的主键索引和非主键索引结构有区别</p>
+<p>索引文件和数据文件是在一起的（聚集）</p>
+<p>主键索引：非叶子节点存储索引，叶子节点存储索引加数据行的所有字段（区别于MyiSAM引擎的只存储数据行的指针，猜测是因为两个文件分开的）</p>
+<p>非主键索引（辅助索引）：非叶子节点存储索引，叶子节点存储索引加数据行的主键字段。（过程是，遍历两棵树，先从非主键索引的树遍历找到记录的主键，再遍历主键索引的树找到记录的其他字段，完成查询，性能相对主键索引低一点，）</p>
+<blockquote>
+<h2 id="加几道面试题"><a href="#加几道面试题" class="headerlink" title="加几道面试题"></a>加几道面试题</h2></blockquote>
+<blockquote>
+<p>为什么InnoDB的表需要有主键？</p>
+</blockquote>
+<p>因为按照设计，表数据本身就是按B+ Tree来组织的一个索引结构文件，有主键才可以使用主键索引，然后来存储，实现快速查询。<br>如果没使用主键建表，实际Mysql会找到唯一行来建立索引，如果找不到充当唯一索引的数据，那么会在后台建立隐藏的字段rowid，插入数据时这个rowid会生成整型数值，作为主键建立索引。</p>
+<blockquote>
+<p>为什么推荐主键使用自增整型？</p>
+</blockquote>
+<p>因为在节点内查找某索引的时候，会进行大小比较，数值之间比较很简单速度很快，如果使用的是UUID类型的字符串，那么就是字符和数字穿插着进行比较，字母要先转ASCII码再进行比较，速度就慢了很多，效率大打折扣。还有UUID的占用磁盘存储空间远远大于整型数字。加载到内存里的时候也会占用跟更大对的空间。使用自增是因为，新插入的值的主键一定比前面大，所以索引也会按照顺序插入到最后的节点之后，引起元素分裂和平衡的概率较低，如果非自增的，那么如果索引应该插入到叶子节点链表的中间某个位置，恰好这个位置所在的节点已经存储满了16KB的数据，那么再插入新索引和数据就会引起节点的分裂，从而导致树平衡，就会使效率很低下，所以需要自增整型。</p>
+<blockquote>
+<p>为什么非主键索引叶子节点存储的是主键值？</p>
+</blockquote>
+<p>1：节省空间，主键索引已经存储了所有字段的值，非主键索引没必要再存储一遍浪费空间。<br>2：一致性问题，两个索引结构都存储所有字段的话，那么插入数据的时候要保证两个树内的索引都插入成功，才能插入真正的数据，类似于事物，那么性能就会下降。</p>
+<p>联合索引：多字段联合一起建立索引</p>
+<blockquote>
+<p>如何保证顺序的呢？</p>
+</blockquote>
+<p>多字段的联合索引，是逐个字段进行比较大小来进行排序。</p>
 
       
 
@@ -185,7 +272,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MQ</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySql</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">索引</a>
         		</li>
       		
 		</ul>
@@ -204,18 +299,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/08/19/MQ系列5：Kafka的高可用架构/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          MQ系列5：Kafka的高可用架构
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/19/MQ系列3：RabbitMQ的普通集群模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MQ系列3：RabbitMQ的普通集群模式</div>
+    <a href="/2019/08/28/AtomicInteger的incrementAndGet-如何保证原子性/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AtomicInteger的incrementAndGet()如何保证原子性</div>
       <i class="icon-circle-right"></i>
     </a>
   
