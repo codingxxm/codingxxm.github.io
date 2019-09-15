@@ -16,20 +16,20 @@
 <meta property="og:site_name" content="CodingXXM&#39;s Space">
 <meta property="og:description" content="MySql数据库索引 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;首先明确：MySql的数据是存储在磁盘上的，查询数据实际上就是做磁盘I/O操作，索引也一样。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MySql支持的不同索引，如B+ Tree和hash，当然，区分于不同的存储引擎，这次只说">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/.com//table.png">
-<meta property="og:image" content="http://yoursite.com/.com//binarytree1.png">
-<meta property="og:image" content="http://yoursite.com/.com//binarytree2.png">
-<meta property="og:image" content="http://yoursite.com/.com//redblacktree1.png">
-<meta property="og:image" content="http://yoursite.com/.com//redblacktree2.png">
-<meta property="og:image" content="http://yoursite.com/.com//b1.png">
-<meta property="og:image" content="http://yoursite.com/.com//b2.png">
-<meta property="og:image" content="http://yoursite.com/.com//b+1.png">
-<meta property="og:image" content="http://yoursite.com/.com//b+2.png">
-<meta property="og:updated_time" content="2019-09-15T16:43:59.594Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/table.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/binarytree1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/binarytree2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/redblacktree1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/redblacktree2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b%2B1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b%2B2.png">
+<meta property="og:updated_time" content="2019-09-15T16:49:52.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识MqSql索引">
 <meta name="twitter:description" content="MySql数据库索引 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;首先明确：MySql的数据是存储在磁盘上的，查询数据实际上就是做磁盘I/O操作，索引也一样。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MySql支持的不同索引，如B+ Tree和hash，当然，区分于不同的存储引擎，这次只说">
-<meta name="twitter:image" content="http://yoursite.com/.com//table.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/table.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingXXM&#39;s Space" type="application/atom+xml">
   
@@ -188,37 +188,37 @@
 <p>1：select * from t where age = 25;</p>
 <p>2：select * from t where id = 5</p>
 <a id="more"></a>
-<p><img src="/.com//table.png" alt="table"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/table.png" alt="table"></p>
 <p>二叉树 –&gt;  红黑树–&gt; B树 –&gt; B+树</p>
 <blockquote>
 <h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3></blockquote>
 <p>（1）将age字段建立索引执行查询</p>
-<p><img src="/.com//binarytree1.png" alt="二叉树1"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/binarytree1.png" alt="二叉树1"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;需要查找四次，进行四次磁盘I/O操作，效率一般般，但是看上去勉强可用。</p>
 <p>（2）将id字段建立索引执行查询</p>
-<p><img src="/.com//binarytree2.png" alt="二叉树2"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/binarytree2.png" alt="二叉树2"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个图就是二叉树的一种极端情况，在某种场景下变成有N个节点的线性链表。这时候，需要进行五次磁盘I/O操作，数据量大，简直无法使用，所以使用二叉树作为索引的存储结构就直接pass了。</p>
 <blockquote>
 <h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3></blockquote>
 <p>（1）将age字段建立索引执行查询</p>
-<p><img src="/.com//redblacktree1.png" alt="红黑树1"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/redblacktree1.png" alt="红黑树1"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很显然，比上面的二叉树查找效率要高。</p>
 <p>（2）将id字段建立索引执行查询</p>
-<p><img src="/.com//redblacktree2.png" alt="红黑树2"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/redblacktree2.png" alt="红黑树2"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类似于二叉树将age作为索引的查询效果，也要进行好几次磁盘I/O操作。因为二叉树会自旋，调整自己的结构，相同数据比二叉树的层数深度小，但仍然会做N次磁盘I/O，感觉并不是最佳方案。</p>
 <blockquote>
 <h3 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h3></blockquote>
 <p>（1）将age字段建立索引执行查询</p>
-<p><img src="/.com//b1.png" alt="红黑树1"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b1.png" alt="红黑树1"></p>
 <p>（2）将id字段建立索引执行查询</p>
-<p><img src="/.com//b2.png" alt="红黑树2"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b2.png" alt="红黑树2"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B树和上面的结构不一样，B树每个节点存储的除了索引外，还存储了对应的行数据，但是层数仍是一直在变化，并不稳定。还有就是范围查找，如果查找大于某个值，那么久会频繁的从根节点开始查找，效率低。</p>
 <blockquote>
 <h3 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+ 树"></a>B+ 树</h3></blockquote>
 <p>（1）将age字段建立索引执行查询</p>
-<p><img src="/.com//b+1.png" alt="红黑树1"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b%2B1.png" alt="红黑树1"></p>
 <p>（2）将id字段建立索引执行查询</p>
-<p><img src="/.com//b+2.png" alt="红黑树2"></p>
+<p><img src="https://raw.githubusercontent.com/codingxxm/codingxxm.github.io/master/2019/09/15/%E5%88%9D%E8%AF%86MqSql%E7%B4%A2%E5%BC%95/b%2B2.png" alt="红黑树2"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;会发现有明显不同。需要解释的是，非叶子节点只存储索引（B树是索引+行数据），叶子节点存储冗余索引（方便进行查询，子节点大于等于根节点）和数据行的指针，节点默认固定大小为16K，所以单节点B+树比B树存储的索引值多很多（因为不需要存储行数据），所以层数深度就小，磁盘I/O就少，查询快速，相对更稳定些。（还涉及到范围查找），Mysql实现的b+树叶子节点指针是双向的，方便查找，如果查找大于某个值，只需要从根节点查找一次后，找到边界值，凭借双向指针，即可找到后面的值，效率高。</p>
 <blockquote>
 <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2></blockquote>
@@ -423,6 +423,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MQ</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CAS</a>
               </li>
              
@@ -432,10 +436,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">并发编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MQ</a>
               </li>
              
               <li class="article-tag-list-item">
